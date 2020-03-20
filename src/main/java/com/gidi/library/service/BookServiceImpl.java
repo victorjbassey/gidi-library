@@ -49,14 +49,20 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public String deleteBookCollection(Long bookCollectionId) {
-        bookCollectionRepository.deleteById(bookCollectionId);
+        Optional<BookCollection> bookCollectionOptional = bookCollectionRepository.findById(bookCollectionId);
+        if (bookCollectionOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Book with collection id - " + bookCollectionId + " does not exist");
+        }
+        bookCollectionRepository.delete(bookCollectionOptional.get());
         logger.info("Book with collection id - " + bookCollectionId + " deleted");
         return "Successfully deleted book with collection id - " + bookCollectionId;
     }
 
     @Override
     public String deleteSingleBookCopy(Long bookId) {
-        bookRepository.deleteById(bookId);
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        if (bookOptional.isEmpty()) throw new ResourceNotFoundException("Book with id - " + bookId + " does not exist");
+        bookRepository.delete(bookOptional.get());
         logger.info("Book with id - " + bookId + " deleted");
         return "Successfully deleted book with id - " + bookId;
     }
