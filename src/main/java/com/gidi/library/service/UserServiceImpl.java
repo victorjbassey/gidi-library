@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
     }
 
+    /**
+     * Adds a new user to the library database
+     * @param userDto, information about the new user
+     * @return the newly added user
+     */
     @Override
     public User addUser(UserDto userDto) {
         if (!userDto.getPassword().equals(userDto.getPasswordConfirm())) {

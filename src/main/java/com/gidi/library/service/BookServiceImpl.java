@@ -33,6 +33,11 @@ public class BookServiceImpl implements BookService {
         this.bookCollectionRepository = bookCollectionRepository;
     }
 
+    /**
+     * Adds a new book or new copy to an existing book collection
+     * @param bookDto, the information about the new book to be added
+     * @return data of the newly added book
+     */
     @Override
     public BookData addBook(BookDto bookDto) {
         BookCollection bookCollection = bookCollectionRepository.findByIsbn(bookDto.getIsbn()).orElse(null);
@@ -47,6 +52,11 @@ public class BookServiceImpl implements BookService {
                 bookCollection.getIsbn(), addedBook.getAddedAt(), bookCollection.getUpdatedAt());
     }
 
+    /**
+     * Deletes a book and all of its copies from the library
+     * @param bookCollectionId, the id of a collection of same books
+     * @return success message on successful operation
+     */
     @Override
     public String deleteBookCollection(Long bookCollectionId) {
         Optional<BookCollection> bookCollectionOptional = bookCollectionRepository.findById(bookCollectionId);
@@ -58,6 +68,11 @@ public class BookServiceImpl implements BookService {
         return "Successfully deleted book with collection id - " + bookCollectionId;
     }
 
+    /**
+     * Deletes a single copy from an existing collection of books
+     * @param bookId, the unique id of the particular copy
+     * @return success message on successful operation
+     */
     @Override
     public String deleteSingleBookCopy(Long bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
@@ -67,6 +82,12 @@ public class BookServiceImpl implements BookService {
         return "Successfully deleted book with id - " + bookId;
     }
 
+    /**
+     * Updates the information of an existing book in the library
+     * @param bookDto, new information about the book
+     * @param bookCollectionId, the id of a collection of same books
+     * @return the updated book information
+     */
     @Override
     public BookCollection updateBook(BookDto bookDto, Long bookCollectionId) {
         BookCollection bookCollection = getBookCollectionFromDto(bookDto);
@@ -85,6 +106,11 @@ public class BookServiceImpl implements BookService {
         return new BookCollection(bookDto.getTitle(), bookDto.getIsbn(), bookDto.getAuthor(), bookDto.getPublisher());
     }
 
+    /**
+     * Searches the library for books
+     * @param searchTerm, the search keyword
+     * @return list of found results
+     */
     @Override
     public List<BookSearchResult> searchLibrary(String searchTerm) {
         List<BookCollection> searchOutput = bookCollectionRepository.findDistinctByTitleContainingIgnoreCase(searchTerm);
@@ -99,6 +125,12 @@ public class BookServiceImpl implements BookService {
         return searchResults;
     }
 
+    /**
+     * Lends a copy of book to an existing user in the library
+     * @param userId, id of the user receiving the book
+     * @param bookCollectionId, id of the book
+     * @return data about the book that has been lent
+     */
     @Override
     public BookData lendBookToUser(Long userId, Long bookCollectionId) {
         User theUser = userRepository.findById(userId)
