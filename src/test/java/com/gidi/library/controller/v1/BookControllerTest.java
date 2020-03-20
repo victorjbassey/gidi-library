@@ -46,7 +46,7 @@ class BookControllerTest {
         BookData bookData = new BookData(1L, "The Testaments", "M. Atwood",
                 "A & B", "0345676828", null, null);
         when(bookService.addBook(any())).thenReturn(bookData);
-        mockMvc.perform(post("/books")
+        mockMvc.perform(post("/api/v1/books")
                 .content(asJsonString(bookData))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -62,7 +62,7 @@ class BookControllerTest {
         bookDto.setPublisher("Amaze");
         bookDto.setAuthor("A. Apta");
         when(bookService.updateBook(any(), anyLong())).thenReturn(bookCollection);
-        mockMvc.perform(put("/books/{bookId}", 1)
+        mockMvc.perform(put("/api/v1/books/{bookId}", 1)
                 .content(asJsonString(bookDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -72,14 +72,14 @@ class BookControllerTest {
     @Test
     void deleteBookCollection() throws Exception {
         when(bookService.deleteBookCollection(anyLong())).thenReturn("");
-        mockMvc.perform(delete("/books/{bookCollectionId}", 1))
+        mockMvc.perform(delete("/api/v1/books/{bookCollectionId}", 1))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteSingleBookCopy() throws Exception {
         when(bookService.deleteSingleBookCopy(anyLong())).thenReturn("");
-        mockMvc.perform(delete("/books/copy/{bookId}", 1))
+        mockMvc.perform(delete("/api/v1/books/copy/{bookId}", 1))
                 .andExpect(status().isOk());
     }
 
@@ -89,7 +89,7 @@ class BookControllerTest {
         searchResults.add(new BookSearchResult(new BookCollection()));
         when(bookService.searchLibrary(anyString())).thenReturn(searchResults);
 
-        mockMvc.perform(get("/books/search?value=the"))
+        mockMvc.perform(get("/api/v1/books/search?value=the"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Successfully retrieved books"))
                 .andExpect(jsonPath("$.data").exists());
@@ -100,7 +100,7 @@ class BookControllerTest {
         BookData bookData = new BookData();
         when(bookService.lendBookToUser(anyLong(), anyLong())).thenReturn(bookData);
 
-        mockMvc.perform(get("/books/lend/{bookId}/{userId}", 1, 1))
+        mockMvc.perform(get("/api/v1/books/lend/{bookId}/{userId}", 1, 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Successfully lent book to user with id - 1"))
                 .andExpect(jsonPath("$.data").exists());
