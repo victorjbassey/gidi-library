@@ -31,7 +31,7 @@ Full documentation for interacting with the APIs is available on the endpoints b
 - `/swagger-ui.html`
 - `/v2/api-docs`
 
-Root context path is `/api/v1`
+H2 Database is available at `http://localhost:8080/h2`
 
 An example of the full route to interact with the api is given below:
 
