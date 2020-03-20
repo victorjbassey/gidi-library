@@ -14,6 +14,7 @@ public class BookData {
     private Long idOfUserInPossession;
     private LocalDateTime addedAt;
     private LocalDateTime updatedAt;
+    private String coverImage;
 
     public BookData() {
     }
@@ -91,5 +92,13 @@ public class BookData {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
     }
 }

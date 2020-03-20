@@ -48,8 +48,7 @@ public class BookServiceImpl implements BookService {
         newBook.setBookCollection(bookCollection);
         Book addedBook = bookRepository.save(newBook);
         logger.info("Book with id - " + addedBook.getId() + " successfully added");
-        return new BookData(addedBook.getId(), bookCollection.getTitle(), bookCollection.getAuthor(), bookCollection.getPublisher(),
-                bookCollection.getIsbn(), addedBook.getAddedAt(), bookCollection.getUpdatedAt());
+        return getBookData(bookCollection, addedBook);
     }
 
     /**
@@ -103,7 +102,12 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookCollection getBookCollectionFromDto(BookDto bookDto) {
-        return new BookCollection(bookDto.getTitle(), bookDto.getIsbn(), bookDto.getAuthor(), bookDto.getPublisher());
+        BookCollection theCollection = new BookCollection(bookDto.getTitle(), bookDto.getIsbn(),
+                bookDto.getAuthor(), bookDto.getPublisher());
+        if (bookDto.getCoverImage() != null) {
+            theCollection.setCoverImage(bookDto.getCoverImage());
+        }
+        return theCollection;
     }
 
     /**
@@ -147,10 +151,18 @@ public class BookServiceImpl implements BookService {
         theBook.setUserInPossession(theUser);
         logger.info("Book with id - " + theBook.getId() + " successfully lent to user with id - " + userId);
         Book lentBook = bookRepository.save(theBook);
-        BookData bookData = new BookData(lentBook.getId(), theBookCollection.getTitle(), theBookCollection.getAuthor(),
-                theBookCollection.getPublisher(), theBookCollection.getIsbn(),
-                lentBook.getAddedAt(), theBookCollection.getUpdatedAt());
+        BookData bookData = getBookData(theBookCollection, lentBook);
         bookData.setIdOfUserInPossession(lentBook.getUserInPossession().getId());
         return bookData;
+    }
+
+    private BookData getBookData(BookCollection theBookCollection, Book theBook) {
+        BookData theBookData = new BookData(theBook.getId(), theBookCollection.getTitle(), theBookCollection.getAuthor(),
+                    theBookCollection.getPublisher(), theBookCollection.getIsbn(),
+                theBook.getAddedAt(), theBookCollection.getUpdatedAt());
+        if (theBookCollection.getCoverImage() != null) {
+            theBookData.setCoverImage(theBookCollection.getCoverImage());
+        }
+        return theBookData;
     }
 }
