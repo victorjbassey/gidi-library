@@ -1,12 +1,14 @@
 package com.gidi.library.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class BookDto {
     @NotBlank(message = "Please enter book title")
     private String title;
 
     @NotBlank(message = "Please enter the ISBN")
+    @Size(min = 10, max = 13, message = "ISBN must be between 10 and 13 characters")
     private String isbn;
 
     @NotBlank(message = "Please enter author's name")
