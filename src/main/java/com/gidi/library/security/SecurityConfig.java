@@ -60,7 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         // This line below is necessary to allow H2 in-memory database work with spring security.
-        // I wouldn't do this in production since I'd be working with a real database
         http.headers().frameOptions().sameOrigin();
     }
 
