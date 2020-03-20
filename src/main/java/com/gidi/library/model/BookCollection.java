@@ -1,6 +1,7 @@
 package com.gidi.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "book_collection")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookCollection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,9 @@ public class BookCollection {
     private String isbn;
     private String author;
     private String publisher;
+
+    @Column(name = "cover_image")
+    private String coverImage;
 
     @Column(name ="updated_at")
     @UpdateTimestamp
@@ -93,5 +98,13 @@ public class BookCollection {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
     }
 }
