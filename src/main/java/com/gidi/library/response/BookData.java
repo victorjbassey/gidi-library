@@ -11,7 +11,7 @@ public class BookData {
     private String author;
     private String publisher;
     private String isbn;
-    private long idOfUserInPossession;
+    private Long idOfUserInPossession;
     private LocalDateTime addedAt;
     private LocalDateTime updatedAt;
 
@@ -69,11 +69,11 @@ public class BookData {
         this.isbn = isbn;
     }
 
-    public long getIdOfUserInPossession() {
+    public Long getIdOfUserInPossession() {
         return idOfUserInPossession;
     }
 
-    public void setIdOfUserInPossession(long idOfUserInPossession) {
+    public void setIdOfUserInPossession(Long idOfUserInPossession) {
         this.idOfUserInPossession = idOfUserInPossession;
     }
 
