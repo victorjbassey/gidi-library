@@ -22,9 +22,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/v2/api-docs",
             "/webjars/**",
 
+            // Frontend resources
+            "/",
+            "/favicon.ico",
+            "/manifest.json",
+            "/assets/**",
+            "/static/**",
+
             // registration and login
-            "/register",
-            "/login",
+            "/api/v1/register",
+            "/api/v1/login",
 
             // H2 console
             "/h2/**"
@@ -52,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/books/*").hasRole("LIBRARIAN")
+                .antMatchers("/api/v1/books/**").hasRole("LIBRARIAN")
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
