@@ -17,6 +17,8 @@ public class BookDto {
     @NotBlank(message = "Please enter publisher's information")
     private String publisher;
 
+    private String coverImage;
+
     public String getTitle() {
         return title;
     }
@@ -49,4 +51,11 @@ public class BookDto {
         this.publisher = publisher;
     }
 
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
 }
