@@ -6,6 +6,7 @@ import com.gidi.library.exception.ResourceNotFoundException;
 import com.gidi.library.response.AuthenticationResponse;
 import com.gidi.library.security.JwtUtil;
 import com.gidi.library.service.LibraryUserDetailService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,6 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
+    @ApiOperation(value = "Logs a user in if the provided username and password are correct", httpMethod = "POST")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody LoginDto loginDto) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(),
