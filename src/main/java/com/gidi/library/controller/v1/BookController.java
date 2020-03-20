@@ -9,6 +9,7 @@ import com.gidi.library.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,24 +24,26 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseTemplate<BookData> addNewBook(@RequestBody BookDto bookDto) {
+    public ResponseTemplate<BookData> addNewBook(@Valid @RequestBody BookDto bookDto) {
         BookData bookData = bookService.addBook(bookDto);
         return new ResponseTemplate<>(HttpStatus.CREATED.value(), "Successfully added new book", bookData);
     }
 
     @PutMapping("/{bookId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseTemplate<BookCollection> updateBook(@RequestBody BookDto bookDto, @PathVariable Long bookId) {
+    public ResponseTemplate<BookCollection> updateBook(@Valid @RequestBody BookDto bookDto, @PathVariable Long bookId) {
         BookCollection updatedBook = bookService.updateBook(bookDto, bookId);
         return new ResponseTemplate<>(HttpStatus.OK.value(), "Successfully updated book with id - " + bookId, updatedBook);
     }
 
     @DeleteMapping("/{bookCollectionId}")
+    @ResponseStatus(HttpStatus.OK)
     public String deleteBookCollection(@PathVariable Long bookCollectionId) {
         return bookService.deleteBookCollection(bookCollectionId);
     }
 
     @DeleteMapping("/copy/{bookId}")
+    @ResponseStatus(HttpStatus.OK)
     public String deleteSingleBookCopy(@PathVariable Long bookId) {
         return bookService.deleteSingleBookCopy(bookId);
     }
